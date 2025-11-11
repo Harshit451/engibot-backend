@@ -31,14 +31,23 @@ app.post('/api/chat', async (req, res) => {
   try {
     const { messages } = req.body;
 
-    const body = {
-      contents: messages.map(m => ({
-        role: m.role === 'user' ? 'user' : 'system',
-        parts: [{ text: m.content || "" }]
-      })),
-      temperature: 0.3,
-      maxOutputTokens: 1000
-    };
+   const body = {
+  contents: [
+    {
+      role: "user",
+      parts: [{ text: SYSTEM_PROMPT }]
+    },
+    ...messages.map(m => ({
+      role: m.role === "user" ? "user" : "model",
+      parts: [{ text: m.content || "" }]
+    }))
+  ],
+  generationConfig: {
+    temperature: 0.4,
+    maxOutputTokens: 500
+  }
+};
+
 
     const url = `https://generativelanguage.googleapis.com/v1/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
