@@ -10,6 +10,12 @@ const SYSTEM_PROMPT = `You are EngiBot, a helpful engineering assistant.
 - Ask for missing data if needed.`;
 
 const app = express();
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 app.use(express.json());
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
