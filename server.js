@@ -14,6 +14,10 @@ You are EngiBot, a helpful engineering assistant.
 
 const app = express();
 app.use(express.json());
+app.get("/", (req, res) => {
+  res.send("EngiBot backend is running");
+});
+
 
 // CORS
 app.use((req, res, next) => {
@@ -25,7 +29,7 @@ app.use((req, res, next) => {
 
 // ENV
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const GEMINI_MODEL = "gemini-1.5-flash";   // FIXED MODEL NAME
+const GEMINI_MODEL = "gemini-1.5-flash";   
 
 app.post("/api/chat", async (req, res) => {
   const { messages } = req.body;
